@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Student</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #c0392b;
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>✏️ Edit Student</h2>
+
+    <form th:action="@{/students/edit}" th:object="${student}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" placeholder="Enter full name" required/>
+
+        <label for="department">Department</label>
+        <select th:field="*{department.id}" required>
+            <option value="" disabled>Select Department</option>
+            <option th:each="dept : ${departments}"
+                    th:value="${dept.id}"
+                    th:text="${dept.name}"
+                    th:selected="${dept.id == student.department.id}">
+            </option>
+        </select>
+
+        <label for="course">Course</label>
+        <select th:field="*{course.id}" required>
+            <option value="" disabled>Select Course</option>
+            <option th:each="course : ${courses}"
+                    th:value="${course.id}"
+                    th:text="${course.title}"
+                    th:selected="${course.id == student.course.id}">
+            </option>
+        </select>
+
+        <button type="submit">Update Student</button>
+    </form>
+
+    <a th:href="@{/students}">⬅️ Cancel and Go Back</a>
+</div>
+</body>
+</html>
